@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() {
     const candidatesMiss = [
-        { id: 1, name: "Candidate A", votes: 0, img: "path/to/image1.jpg" },
-        { id: 2, name: "Candidate B", votes: 0, img: "path/to/image2.jpg" },
+        { id: 1, name: "Jaquanda", votes: 0, img: "./img/Jaquanda.jpg" },
+        { id: 2, name: "Marry", votes: 0, img: "./img/Marry.jpg" },
         // Add more candidates
     ];
 
     const candidatesMasters = [
-        { id: 1, name: "Candidate X", votes: 0, img: "path/to/image3.jpg" },
-        { id: 2, name: "Candidate Y", votes: 0, img: "path/to/image4.jpg" },
+        { id: 1, name: "Tyrel", votes: 0, img: "./img/Tyrel.jpg" },
+        { id: 2, name: "Paul", votes: 0, img: "./img/Paul.jpg" },
         // Add more candidates
     ];
 
-    const missCandidatesContainer = document.getElementById("miss-candidates");
-    const mastersCandidatesContainer = document.getElementById("masters-candidates");
+    const missCandidatesContainer = document.getElementById("queen-candidates");
+    const mastersCandidatesContainer = document.getElementById("king-candidates");
 
     function renderCandidates(candidates, container) {
         container.innerHTML = "";
