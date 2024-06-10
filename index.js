@@ -1,38 +1,34 @@
 document.addEventListener("DOMContentLoaded", function() {
+    const socket = io.connect('http://localhost:3000');
+
     let candidatesMiss = [];
     let candidatesMasters = [];
 
-    // Fetch female contestants on page load
-    fetch('./testFemaleContestants.json')
-        .then(response => response.json())
-        .then(data => {
-            candidatesMiss = data.femaleContestants;
-            renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
-            document.getElementById("queens-button").addEventListener("click", function() {
-                renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
-                document.getElementById("queen-candidates").style.display = 'flex';
-                document.getElementById("king-candidates").style.display = 'none';
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-
-    // Fetch male contestants on page load
-    fetch('./testMaleContestants.json')
-        .then(response => response.json())
-        .then(data => {
-            candidatesMasters = data.maleContestants;
-            renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
-            document.getElementById("kings-button").addEventListener("click", function() {
+    // Fetch and render male contestants
+    document.getElementById('kings-button').addEventListener('click', function() {
+        fetch('/api/male-contestants')
+            .then(response => response.json())
+            .then(data => {
+                candidatesMasters = data.maleContestants;
                 renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
                 document.getElementById("king-candidates").style.display = 'flex';
                 document.getElementById("queen-candidates").style.display = 'none';
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // Fetch and render female contestants
+    document.getElementById('queens-button').addEventListener('click', function() {
+        fetch('/api/female-contestants')
+            .then(response => response.json())
+            .then(data => {
+                candidatesMiss = data.femaleContestants;
+                renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
+                document.getElementById("queen-candidates").style.display = 'flex';
+                document.getElementById("king-candidates").style.display = 'none';
+            })
+            .catch(error => console.error('Error:', error));
+    });
 
     function renderCandidates(candidates, container) {
         container.innerHTML = "";
@@ -52,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
             container.appendChild(card);
         });
         container.addEventListener("click", function(event) {
-            handleVote(event, candidates, container, container.id === "queen-candidates" ? './testFemaleContestants.json' : './testMaleContestants.json');
+            handleVote(event, candidates, container, container.id === "queen-candidates" ? 'testFemaleContestants.json' : 'testMaleContestants.json');
         });
     }
 
@@ -100,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     async function updateJSONFile(filePath, candidates) {
         try {
-            const response = await fetch('updateVotes.php', {
+            const response = await fetch('/api/update-vote', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -117,4 +113,15 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('There was a problem with the fetch operation:', error);
         }
     }
+
+    // Listen for updates from the server
+    socket.on('update', (data) => {
+        if (data.filePath.includes('Male')) {
+            candidatesMasters = data.candidates;
+            renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
+        } else {
+            candidatesMiss = data.candidates;
+            renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
+        }
+    });
 });
