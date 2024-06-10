@@ -1,32 +1,36 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var candidatesMiss;
-    var candidatesMasters;
+    let candidatesMiss = [];
+    let candidatesMasters = [];
 
     // Fetch female contestants on page load
     fetch('./testFemaleContestants.json')
         .then(response => response.json())
         .then(data => {
             candidatesMiss = data.femaleContestants;
+            renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
+            document.getElementById("queen-candidates").addEventListener("click", function(event) {
+                handleVote(event, candidatesMiss, document.getElementById("queen-candidates"), './testFemaleContestants.json');
+            });
         })
         .catch(error => {
             console.error('Error:', error);
         });
 
-    // Fetch Male contestants on page load
+    // Fetch male contestants on page load
     fetch('./testMaleContestants.json')
         .then(response => response.json())
         .then(data => {
-          candidatesMasters = data.maleContestants;
+            candidatesMasters = data.maleContestants;
+            renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
+            document.getElementById("king-candidates").addEventListener("click", function(event) {
+                handleVote(event, candidatesMasters, document.getElementById("king-candidates"), './testMaleContestants.json');
+            });
         })
         .catch(error => {
-          console.error('Error:', error);
+            console.error('Error:', error);
         });
 
-    var missCandidatesContainer = document.getElementById("queen-candidates");
-    var mastersCandidatesContainer = document.getElementById("king-candidates");
-
     function renderCandidates(candidates, container) {
-        console.log(candidates)
         container.innerHTML = "";
         candidates.sort((a, b) => b.votes - a.votes);
         candidates.forEach(candidate => {
@@ -42,13 +46,15 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function handleVote(event, candidates, container) {
+    function handleVote(event, candidates, container, jsonFilePath) {
         if (event.target.classList.contains("vote-button")) {
             const candidateId = parseInt(event.target.getAttribute("data-id"));
             const candidate = candidates.find(c => c.id === candidateId);
             candidate.votes += 1;
             setVoted(candidateId);
-            renderCandidates(candidates, container);
+            updateJSONFile(jsonFilePath, candidates)
+                .then(() => renderCandidates(candidates, container))
+                .catch(error => console.error('Error:', error));
         }
     }
 
@@ -60,18 +66,20 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem(`voted_${candidateId}`, 'true');
     }
 
-    if (missCandidatesContainer) {
-        console.log(candidatesMiss);
-        renderCandidates(candidatesMiss, missCandidatesContainer);
-        missCandidatesContainer.addEventListener("click", function(event) {
-            handleVote(event, candidatesMiss, missCandidatesContainer);
-        });
-    }
-
-    if (mastersCandidatesContainer) {
-        renderCandidates(candidatesMasters, mastersCandidatesContainer);
-        mastersCandidatesContainer.addEventListener("click", function(event) {
-            handleVote(event, candidatesMasters, mastersCandidatesContainer);
-        });
+    async function updateJSONFile(filePath, candidates) {
+        try {
+            const response = await fetch(filePath, {
+                method: 'PUT', // or 'POST', depending on your server's API
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ candidates })
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
     }
 });
