@@ -1,41 +1,32 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const candidatesMiss = [
-        { id: 3, name: "Faridaa", votes: 0, img: "./img/Faridaa.jpg"},
-        { id: 4, name: "Ifeoma", votes: 0, img: "./img/Ifeoma.jpg"},
-        { id: 5, name: "Bimbo", votes: 0, img: "./img/Bimbo.jpg"},
-        { id: 6, name: "Daniela", votes: 0, img: "./img/Daniela.jpg"},
-        { id: 7, name: "Aniela", votes: 0, img: "./img/Aniela.jpg"},
-        { id: 8, name: "Jennifer", votes: 0, img: "./img/Jennifer.jpg"},
-        { id: 9, name: "Emma", votes: 0, img: "./img/Emma.jpg"},
-        { id: 10, name: "Fatima", votes: 0, img: "./img/Fatima.jpg"},
-        { id: 11, name: "Mercy", votes: 0, img: "./img/Mercy.jpg"},
-        { id: 12, name: "Wisdom", votes: 0, img: "./img/Wisdom.jpg"},
-        { id: 13, name: "Adaeze", votes: 0, img: "./img/Adaeze.jpg"},
-        { id: 14, name: "Christabel", votes: 0, img: "./img/Christabel.jpg"},
-        { id: 3, name: "Khadija", votes: 0, img: "./img/Khadija.jpg"}
-    ];
+    var candidatesMiss;
+    var candidatesMasters;
 
-    const candidatesMasters = [
-        { id: 3, name: "Wisdom", votes: 0, img: "./img/Wisdom.jpg"},
-        { id: 4, name: "IK", votes: 0, img: "./img/IK.jpg"},
-        { id: 5, name: "Abdul", votes: 0, img: "./img/Abdul.jpg"},
-        { id: 6, name: "Abraham", votes: 0, img: "./img/Abraham.jpg"},
-        { id: 7, name: "Daniel", votes: 0, img: "./img/Daniel.jpg"},
-        { id: 8, name: "Fareed", votes: 0, img: "./img/Fareed.jpg"},
-        { id: 10, name: "David", votes: 0, img: "./img/David.jpg"},
-        { id: 11, name: "Henry", votes: 0, img: "./img/Henry.jpg"},
-        { id: 12, name: "Amir", votes: 0, img: "./img/Amir.jpg"},
-        { id: 13, name: "Joshua", votes: 0, img: "./img/Joshua.jpg"},
-        { id: 14, name: "Chibunna", votes: 0, img: "./img/Chibunna.jpg"},
-        { id: 15, name: "Alvin", votes: 0, img: "./img/Alvin.jpg"},
-        { id: 16, name: "James", votes: 0, img: "./img/James.jpg"},
-        { id: 17, name: "Miracle", votes: 0, img: "./img/Miracle.jpg"}
-    ];
+    // Fetch female contestants on page load
+    fetch('./testFemaleContestants.json')
+        .then(response => response.json())
+        .then(data => {
+            candidatesMiss = data.femaleContestants;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
-    const missCandidatesContainer = document.getElementById("queen-candidates");
-    const mastersCandidatesContainer = document.getElementById("king-candidates");
+    // Fetch Male contestants on page load
+    fetch('./testMaleContestants.json')
+        .then(response => response.json())
+        .then(data => {
+          candidatesMasters = data.maleContestants;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+    var missCandidatesContainer = document.getElementById("queen-candidates");
+    var mastersCandidatesContainer = document.getElementById("king-candidates");
 
     function renderCandidates(candidates, container) {
+        console.log(candidates)
         container.innerHTML = "";
         candidates.sort((a, b) => b.votes - a.votes);
         candidates.forEach(candidate => {
@@ -70,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if (missCandidatesContainer) {
+        console.log(candidatesMiss);
         renderCandidates(candidatesMiss, missCandidatesContainer);
         missCandidatesContainer.addEventListener("click", function(event) {
             handleVote(event, candidatesMiss, missCandidatesContainer);
