@@ -1,11 +1,18 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 const app = express();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
 const port = 3000;
 
+app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
 app.use(express.static('public'));
 

@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const socket = io.connect('http://localhost:3000');
+    const serverAddress = 'http://localhost:3000';
+    const socket = io.connect(serverAddress);
 
     let candidatesMiss = [];
     let candidatesMasters = [];
 
     // Fetch and render male contestants
     document.getElementById('kings-button').addEventListener('click', function() {
-        fetch('/api/male-contestants')
+        fetch(`${serverAddress}/api/male-contestants`)
             .then(response => response.json())
             .then(data => {
                 candidatesMasters = data.maleContestants;
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fetch and render female contestants
     document.getElementById('queens-button').addEventListener('click', function() {
-        fetch('/api/female-contestants')
+        fetch(`${serverAddress}/api/female-contestants`)
             .then(response => response.json())
             .then(data => {
                 candidatesMiss = data.femaleContestants;
@@ -96,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     async function updateJSONFile(filePath, candidates) {
         try {
-            const response = await fetch('/api/update-vote', {
+            const response = await fetch(`${serverAddress}/api/update-vote`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
