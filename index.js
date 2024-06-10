@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
         { id: 13, name: "Adaeze", votes: 0, img: "./img/Adaeze.jpg"},
         { id: 14, name: "Christabel", votes: 0, img: "./img/Christabel.jpg"},
         { id: 3, name: "Khadija", votes: 0, img: "./img/Khadija.jpg"}
-        // Add more candidates
     ];
 
     const candidatesMasters = [
@@ -31,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function() {
         { id: 15, name: "Alvin", votes: 0, img: "./img/Alvin.jpg"},
         { id: 16, name: "James", votes: 0, img: "./img/James.jpg"},
         { id: 17, name: "Miracle", votes: 0, img: "./img/Miracle.jpg"}
-        // Add more candidates
     ];
 
     const missCandidatesContainer = document.getElementById("queen-candidates");

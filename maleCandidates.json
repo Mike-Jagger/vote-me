@@ -1,0 +1,18 @@
+{
+    "maleContestants": [
+        { "id": 3, "name": "Wisdom", "votes": 0, "img": "./img/Wisdom.jpg"},
+        { "id": 4, "name": "IK", "votes": 0, "img": "./img/IK.jpg"},
+        { "id": 5, "name": "Abdul", "votes": 0, "img": "./img/Abdul.jpg"},
+        { "id": 6, "name": "Abraham", "votes": 0, "img": "./img/Abraham.jpg"},
+        { "id": 7, "name": "Daniel", "votes": 0, "img": "./img/Daniel.jpg"},
+        { "id": 8, "name": "Fareed", "votes": 0, "img": "./img/Fareed.jpg"},
+        { "id": 10, "name": "David", "votes": 0, "img": "./img/David.jpg"},
+        { "id": 11, "name": "Henry", "votes": 0, "img": "./img/Henry.jpg"},
+        { "id": 12, "name": "Amir", "votes": 0, "img": "./img/Amir.jpg"},
+        { "id": 13, "name": "Joshua", "votes": 0, "img": "./img/Joshua.jpg"},
+        { "id": 14, "name": "Chibunna", "votes": 0, "img": "./img/Chibunna.jpg"},
+        { "id": 15, "name": "Alvin", "votes": 0, "img": "./img/Alvin.jpg"},
+        { "id": 16, "name": "James", "votes": 0, "img": "./img/James.jpg"},
+        { "id": 17, "name": "Miracle", "votes": 0, "img": "./img/Miracle.jpg"}
+    ]
+}
