@@ -6,6 +6,8 @@ body {
     flex-direction: column;
     align-items: center;
     background-color: #f4f4f4;
+    width: 100%;
+    /* overflow-x: hidden; */
 }
 
 header {
@@ -13,13 +15,12 @@ header {
     color: white;
     width: 100%;
     text-align: center;
-    padding: 1rem;
+    padding: 1rem 0;
 }
 
 main {
     padding: 2rem;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -29,7 +30,7 @@ main {
 }
 
 .button-container button {
-    background-color: #6c63ff;
+    background-color: #7552CC;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -48,29 +49,32 @@ main {
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+    /* /* width: 100%; */
+    padding: 0px 2rem;
 }
 
 .candidate-card {
     background: white;
-    border: 1px solid purple;
-    border-radius: 8px;
+    border: 1px solid black;
+    border-radius: 30px;
     overflow: hidden;
-    width: 200px;
+    width: 350px;
+    height: 370px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
 .candidate-card .profile-image {
     background-repeat: no-repeat;
     background-size: cover;
-    width: 120px;
-    height: 120px;
+    width: 192px;
+    height: 192px;
     border-radius: 50%;
-    border: solid 2px purple;
+    border: solid 4px #7552CC;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -86,7 +90,7 @@ main {
 }
 
 .vote-button {
-    background-color: #28a745;
+    background-color: #7552CC;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -96,8 +100,28 @@ main {
 }
 
 .vote-button:hover {
-    background-color: #218838;
+    background-color: #55399b;
 }
+
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: red; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+  }
+  
+  #myBtn:hover {
+    background-color: #555; /* Add a dark-grey background on hover */
+  }
 
 /* Responsive design */
 @media (max-width: 600px) {

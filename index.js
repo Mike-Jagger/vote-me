@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
             renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
             document.getElementById("queens-button").addEventListener("click", function() {
                 renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
-                document.getElementById("queen-candidates").style.display = 'block';
+                document.getElementById("queen-candidates").style.display = 'flex';
                 document.getElementById("king-candidates").style.display = 'none';
             });
         })
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
             renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
             document.getElementById("kings-button").addEventListener("click", function() {
                 renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
-                document.getElementById("king-candidates").style.display = 'block';
+                document.getElementById("king-candidates").style.display = 'flex';
                 document.getElementById("queen-candidates").style.display = 'none';
             });
         })
