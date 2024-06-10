@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             candidatesMiss = data.femaleContestants;
-            renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
-            document.getElementById("queen-candidates").addEventListener("click", function(event) {
-                handleVote(event, candidatesMiss, document.getElementById("queen-candidates"), './testFemaleContestants.json');
+            document.getElementById("queens-button").addEventListener("click", function() {
+                renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
+                document.getElementById("queen-candidates").style.display = 'block';
+                document.getElementById("king-candidates").style.display = 'none';
             });
         })
         .catch(error => {
@@ -21,9 +22,10 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             candidatesMasters = data.maleContestants;
-            renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
-            document.getElementById("king-candidates").addEventListener("click", function(event) {
-                handleVote(event, candidatesMasters, document.getElementById("king-candidates"), './testMaleContestants.json');
+            document.getElementById("kings-button").addEventListener("click", function() {
+                renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
+                document.getElementById("king-candidates").style.display = 'block';
+                document.getElementById("queen-candidates").style.display = 'none';
             });
         })
         .catch(error => {
@@ -43,6 +45,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 <button class="vote-button" data-id="${candidate.id}" ${hasVoted(candidate.id) ? 'disabled' : ''}>Vote</button>
             `;
             container.appendChild(card);
+        });
+        container.addEventListener("click", function(event) {
+            handleVote(event, candidates, container, './testFemaleContestants.json');
         });
     }
 
