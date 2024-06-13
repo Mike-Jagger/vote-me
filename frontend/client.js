@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function renderCandidates(candidates, container) {
         container.innerHTML = "";
-        candidates.sort((a, b) => b.votes - a.votes);
+        candidates.sort((a, b) => b.id - a.id);
         candidates.forEach(candidate => {
             const voted = hasVoted(candidate.id, container.id);
             const card = document.createElement("div");
@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
             card.innerHTML = `
                 <div class="profile-image" style="background-image: url(${candidate.img})"></div>
                 <h2>${candidate.name}</h2>
-                <p>Votes: <span class="vote-count">${candidate.votes}</span></p>
                 <button class="vote-button" data-id="${candidate.id}" ${voted ? 'data-voted="true"' : ''}>
                     ${voted ? 'Unvote' : 'Vote'}
                 </button>

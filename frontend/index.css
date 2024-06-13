@@ -82,7 +82,8 @@ main {
 
 .candidate-card h2 {
     margin: 0.5rem 0;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
+    font-size: 24px;
 }
 
 .candidate-card p {
@@ -92,11 +93,13 @@ main {
 .vote-button {
     background-color: #7552CC;
     color: white;
-    border: none;
+    border: solid 1px #7552CC;
+    width: 50%;
+    font-size: 18px;
+    border-radius: 20px;
     padding: 0.5rem 1rem;
     margin-bottom: 1rem;
     cursor: pointer;
-    border-radius: 4px;
 }
 
 .vote-button:hover {
