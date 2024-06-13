@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masters Voting</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header id="header">
+        <h1>VOTE ME</h1>
+        <div class="button-container">
+            <button id="kings-button">KINGS</button>
+            <button id="queens-button">QUEENS</button>
+        </div>
+    </header>
+    <main>
+        <div class="candidates" id="king-candidates" style="display: none;">
+            <!-- Candidate cards will be dynamically inserted here -->
+        </div>
+        <div class="candidates" id="queen-candidates" style="display: none;">
+            <!-- Candidate cards will be dynamically inserted here -->
+        </div>
+    </main>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("myBtn");
+        
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+        
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+          } else {
+            mybutton.style.display = "none";
+          }
+        }
+        
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+    </script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
