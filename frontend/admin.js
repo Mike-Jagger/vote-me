@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const serverAddress = 'http://localhost:3000';
     const socket = io.connect(serverAddress);
-    let numCalls = 0;
 
     let candidatesMiss = [];
     let candidatesMasters = [];
@@ -45,9 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <div class="profile-image" style="background-image: url(${candidate.img})"></div>
                 <h2>${candidate.name}</h2>
                 <p>Votes: <span class="vote-count">${candidate.votes}</span></p>
-                <button class="vote-button" data-id="${candidate.id}" ${voted ? 'data-voted="true"' : ''}>
-                    ${voted ? 'Unvote' : 'Vote'}
-                </button>
             `;
             container.appendChild(card);
             rank += 1;
@@ -55,77 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         container.removeEventListener("click", handleVote);
         container.addEventListener("click", handleVote);
-    }
-
-    async function handleVote(event) {
-        numCalls += 1;
-        if (event.target.classList.contains("vote-button")) {
-            const candidateId = parseInt(event.target.getAttribute("data-id"));
-            const voteType = event.target.hasAttribute('data-voted') ? 'downvote' : 'upvote';
-            const container = event.target.closest('.candidates');
-            const candidates = container.id === "king-candidates" ? candidatesMasters : candidatesMiss;
-
-            const previousVote = getVoted(container.id);
-            if (previousVote && previousVote !== candidateId && voteType === 'upvote') {
-                if (!confirm("You have already voted for another candidate. Do you want to change your vote?")) {
-                    return;
-                }
-                const previousCandidate = candidates.find(c => c.id === previousVote);
-                if (previousCandidate) {
-                    previousCandidate.votes -= 1;
-                    removeVoted(previousVote, container.id);
-                }
-            }
-
-            try {
-                const response = await fetch(`${serverAddress}/api/update-vote`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        candidateId: candidateId,
-                        previousCandidateId: previousVote,
-                        voteType: voteType,
-                        containerId: container.id
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                if (voteType === 'upvote') {
-                    setVoted(candidateId, container.id);
-                    event.target.setAttribute('data-voted', 'true');
-                    event.target.textContent = 'Unvote';
-                } else {
-                    removeVoted(candidateId, container.id);
-                    event.target.removeAttribute('data-voted');
-                    event.target.textContent = 'Vote';
-                }
-
-                console.log(`response calls ${numCalls}`);
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
-            }
-        }
-    }
-
-    function hasVoted(candidateId, category) {
-        return localStorage.getItem(`voted_${category}`) === String(candidateId);
-    }
-
-    function getVoted(category) {
-        return localStorage.getItem(`voted_${category}`);
-    }
-
-    function setVoted(candidateId, category) {
-        localStorage.setItem(`voted_${category}`, candidateId);
-    }
-
-    function removeVoted(candidateId, category) {
-        localStorage.removeItem(`voted_${category}`);
     }
 
     // Listen for updates from the server
@@ -137,6 +62,5 @@ document.addEventListener("DOMContentLoaded", function() {
             candidatesMiss = data.candidates;
             renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
         }
-        console.log(`socket calls ${numCalls}`);
     });
 });
