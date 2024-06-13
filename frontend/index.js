@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const serverAddress = 'http://localhost:3000';
+    const serverAddress = 'https://b351f24b-1630-4c84-bb8d-cc30afc0828e-00-1yzdiixczcwmr.spock.replit.dev';
     const socket = io.connect(serverAddress);
     let numCalls = 0;
 
@@ -8,7 +8,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fetch and render male contestants
     document.getElementById('kings-button').addEventListener('click', function() {
-        fetch(`${serverAddress}/api/male-contestants`)
+        fetch(`${serverAddress}/api/male-contestants`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            }
+        )
             .then(response => response.json())
             .then(data => {
                 candidatesMasters = data.maleContestants;
@@ -21,7 +29,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fetch and render female contestants
     document.getElementById('queens-button').addEventListener('click', function() {
-        fetch(`${serverAddress}/api/female-contestants`)
+        fetch(`${serverAddress}/api/female-contestants`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            }
+        )
             .then(response => response.json())
             .then(data => {
                 candidatesMiss = data.femaleContestants;
@@ -80,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    mode: 'cors',
                     body: JSON.stringify({
                         candidateId: candidateId,
                         previousCandidateId: previousVote,
