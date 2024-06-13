@@ -61,16 +61,28 @@
       "img": "./img/Christabel.jpg"
     },
     {
-      "id": 4,
+      "id": 15,
       "name": "Ifeoma",
       "votes": 0,
       "img": "./img/Ifeoma.jpg"
     },
     {
-      "id": 3,
+      "id": 16,
       "name": "Faridaa",
       "votes": 0,
       "img": "./img/Faridaa.jpg"
+    },
+    {
+      "id": 1,
+      "name": "Faith",
+      "votes": 0,
+      "img": "./img/Faith.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Amanda",
+      "votes": 0,
+      "img": "./img/Amanda.jpg"
     }
   ]
 }
