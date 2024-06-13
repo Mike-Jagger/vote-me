@@ -62,7 +62,7 @@ app.post('/api/update-vote', async (req, res) => {
 
     try {
         const data = await readJSONFile(path.join(__dirname, filePath));
-        var candidates = containerId === 'king-candidates' ? data.maleContestants : data.femaleContestants;
+        const candidates = containerId === 'king-candidates' ? data.maleContestants : data.femaleContestants;
         const candidate = candidates.find(c => c.id === candidateId);
 
         if (candidate) {
@@ -77,10 +77,12 @@ app.post('/api/update-vote', async (req, res) => {
 
         res.send('Votes updated successfully');
 
+        setTimeout( () => {
+            io.emit('update', { containerId, candidates });
+        }, 3000)
+
     } catch (err) {
         res.status(500).send('Error processing vote');
-    } finally {
-        io.emit('update', { containerId, candidates });
     }
 });
 

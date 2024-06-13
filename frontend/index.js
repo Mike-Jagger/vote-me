@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const serverAddress = 'http://localhost:3000';
     const socket = io.connect(serverAddress);
+    let numCalls = 0;
 
     let candidatesMiss = [];
     let candidatesMasters = [];
@@ -49,15 +50,17 @@ document.addEventListener("DOMContentLoaded", function() {
             container.appendChild(card);
         });
 
-        container.addEventListener("click", function(event) {
-            handleVote(event, candidates, container);
-        });
+        container.removeEventListener("click", handleVote);
+        container.addEventListener("click", handleVote);
     }
 
-    async function handleVote(event, candidates, container) {
+    async function handleVote(event) {
+        numCalls += 1;
         if (event.target.classList.contains("vote-button")) {
             const candidateId = parseInt(event.target.getAttribute("data-id"));
             const voteType = event.target.hasAttribute('data-voted') ? 'downvote' : 'upvote';
+            const container = event.target.closest('.candidates');
+            const candidates = container.id === "king-candidates" ? candidatesMasters : candidatesMiss;
 
             try {
                 const response = await fetch(`${serverAddress}/api/update-vote`, {
@@ -85,6 +88,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.target.removeAttribute('data-voted');
                     event.target.textContent = 'Vote';
                 }
+
+                console.log(`response calls ${numCalls}`);
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
             }
@@ -112,5 +117,6 @@ document.addEventListener("DOMContentLoaded", function() {
             candidatesMiss = data.candidates;
             renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
         }
+        console.log(`socket calls ${numCalls}`);
     });
 });
