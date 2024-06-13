@@ -62,11 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const container = event.target.closest('.candidates');
             const candidates = container.id === "king-candidates" ? candidatesMasters : candidatesMiss;
 
-            if (voteType === 'upvote' && hasVoted(candidateId, container.id)) {
-                alert("You need to remove your current vote before voting again.");
-                return;
-            }
-
             const previousVote = getVoted(container.id);
             if (previousVote && previousVote !== candidateId && voteType === 'upvote') {
                 if (!confirm("You have already voted for another candidate. Do you want to change your vote?")) {
@@ -87,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     },
                     body: JSON.stringify({
                         candidateId: candidateId,
+                        previousCandidateId: previousVote,
                         voteType: voteType,
                         containerId: container.id
                     })

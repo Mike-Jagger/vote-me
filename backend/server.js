@@ -76,8 +76,7 @@ app.post('/api/update-vote', async (req, res) => {
 
         // Remove the vote for the previous candidate
         if (previousCandidateId) {
-            const previousCandidate = candidates.find(c => c.id === previousCandidateId);
-            console.log(previousCandidate);
+            const previousCandidate = candidates.find(c => c.id === parseInt(previousCandidateId));
             if (previousCandidate && previousCandidate.votes > 0) {
                 previousCandidate.votes -= 1;
             }
@@ -87,9 +86,9 @@ app.post('/api/update-vote', async (req, res) => {
 
         res.send('Votes updated successfully');
 
-        res.on('finish', () => {
+        setTimeout(() => {
             io.emit('update', { containerId, candidates });
-        });
+        }, 2000);
         
     } catch (err) {
         res.status(500).send('Error processing vote');
