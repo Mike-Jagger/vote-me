@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`${serverAddress}/api/male-contestants`)
             .then(response => response.json())
             .then(data => {
-                candidatesMasters = data.maleContestants;
+                candidatesMasters = data.candidates;
                 renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
                 document.getElementById("king-candidates").style.display = 'flex';
                 document.getElementById("queen-candidates").style.display = 'none';
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`${serverAddress}/api/female-contestants`)
             .then(response => response.json())
             .then(data => {
-                candidatesMiss = data.femaleContestants;
+                candidatesMiss = data.candidates;
                 renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
                 document.getElementById("queen-candidates").style.display = 'flex';
                 document.getElementById("king-candidates").style.display = 'none';
@@ -58,23 +58,25 @@ document.addEventListener("DOMContentLoaded", function() {
             const candidateId = parseInt(event.target.getAttribute("data-id"));
             const candidate = candidates.find(c => c.id === candidateId);
             if (event.target.hasAttribute('data-voted')) {
-                candidate.votes -= 1;
+                candidate.votes = candidate.votes >= 0 ? candidate.votes - 1 : candidate.votes;
                 removeVoted(candidate.id, container.id);
                 event.target.removeAttribute('data-voted');
                 event.target.textContent = 'Vote';
             } else {
                 const previousVote = getVoted(container.id);
                 if (previousVote) {
-                    const previousCandidate = candidates.find(c => c.id === previousVote);
-                    previousCandidate.votes -= 1;
+                    // const previousCandidate = candidates.find(c => c.id === previousVote);
+                    // previousCandidate.votes -= 1;
+                } else {
+                    candidate.votes += 1;
+                    setVoted(candidate.id, container.id);
+                    event.target.setAttribute('data-voted', 'true');
+                    event.target.textContent = 'Unvote';
+                    console.log(candidates, candidate);
                 }
-                candidate.votes += 1;
-                setVoted(candidate.id, container.id);
-                event.target.setAttribute('data-voted', 'true');
-                event.target.textContent = 'Unvote';
             }
             updateJSONFile(jsonFilePath, candidates)
-                .then(() => renderCandidates(candidates, container))
+                // .then(() => renderCandidates(candidates, container))
                 .catch(error => console.error('Error:', error));
         }
     }

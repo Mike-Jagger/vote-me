@@ -39,6 +39,7 @@ app.get('/api/female-contestants', (req, res) => {
 // Endpoint to update votes
 app.post('/api/update-vote', (req, res) => {
     const { filePath, candidates } = req.body;
+    console.log(candidates);
 
     fs.writeFile(path.join(__dirname, filePath), JSON.stringify({ candidates }, null, 2), (err) => {
         if (err) {
@@ -46,7 +47,7 @@ app.post('/api/update-vote', (req, res) => {
         }
 
         // Notify all clients about the update
-        io.emit('update', { filePath, candidates });
+        //io.emit('update', { filePath, candidates });
 
         res.send('Votes updated successfully');
     });

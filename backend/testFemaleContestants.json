@@ -1,17 +1,82 @@
 {
-    "femaleContestants": [
-        { "id": 3, "name": "Faridaa", "votes": 0, "img": "./img/Faridaa.jpg"},
-        { "id": 4, "name": "Ifeoma", "votes": 0, "img": "./img/Ifeoma.jpg"},
-        { "id": 5, "name": "Bimbo", "votes": 0, "img": "./img/Bimbo.jpg"},
-        { "id": 6, "name": "Daniela", "votes": 0, "img": "./img/Daniela.jpg"},
-        { "id": 7, "name": "Aniela", "votes": 0, "img": "./img/Aniela.jpg"},
-        { "id": 8, "name": "Jennifer", "votes": 0, "img": "./img/Jennifer.jpg"},
-        { "id": 9, "name": "Emma", "votes": 0, "img": "./img/Emma.jpg"},
-        { "id": 10, "name": "Fatima", "votes": 0, "img": "./img/Fatima.jpg"},
-        { "id": 11, "name": "Mercy", "votes": 0, "img": "./img/Mercy.jpg"},
-        { "id": 12, "name": "Wisdom", "votes": 0, "img": "./img/Wisdom.jpg"},
-        { "id": 13, "name": "Adaeze", "votes": 0, "img": "./img/Adaeze.jpg"},
-        { "id": 14, "name": "Christabel", "votes": 0, "img": "./img/Christabel.jpg"},
-        { "id": 3, "name": "Khadija", "votes": 0, "img": "./img/Khadija.jpg"}
-    ]
+  "candidates": [
+    {
+      "id": 3,
+      "name": "Khadija",
+      "votes": 0,
+      "img": "./img/Khadija.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Bimbo",
+      "votes": 0,
+      "img": "./img/Bimbo.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Daniela",
+      "votes": 0,
+      "img": "./img/Daniela.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Aniela",
+      "votes": 0,
+      "img": "./img/Aniela.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Jennifer",
+      "votes": 0,
+      "img": "./img/Jennifer.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Emma",
+      "votes": 0,
+      "img": "./img/Emma.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Fatima",
+      "votes": 0,
+      "img": "./img/Fatima.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Mercy",
+      "votes": 0,
+      "img": "./img/Mercy.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Wisdom",
+      "votes": 0,
+      "img": "./img/Wisdom.jpg"
+    },
+    {
+      "id": 13,
+      "name": "Adaeze",
+      "votes": 0,
+      "img": "./img/Adaeze.jpg"
+    },
+    {
+      "id": 14,
+      "name": "Christabel",
+      "votes": 0,
+      "img": "./img/Christabel.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Ifeoma",
+      "votes": 0,
+      "img": "./img/Ifeoma.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Faridaa",
+      "votes": -1,
+      "img": "./img/Faridaa.jpg"
+    }
+  ]
 }
