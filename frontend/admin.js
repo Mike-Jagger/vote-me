@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const serverAddress = 'http://localhost:3000';
+    const serverAddress = 'https://b351f24b-1630-4c84-bb8d-cc30afc0828e-00-1yzdiixczcwmr.spock.replit.dev';
     const socket = io.connect(serverAddress);
 
     let candidatesMiss = [];
