@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`${serverAddress}/api/male-contestants`)
             .then(response => response.json())
             .then(data => {
-                candidatesMasters = data.candidates;
+                candidatesMasters = data.maleContestants;
                 renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
                 document.getElementById("king-candidates").style.display = 'flex';
                 document.getElementById("queen-candidates").style.display = 'none';
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`${serverAddress}/api/female-contestants`)
             .then(response => response.json())
             .then(data => {
-                candidatesMiss = data.candidates;
+                candidatesMiss = data.femaleContestants;
                 renderCandidates(candidatesMiss, document.getElementById("queen-candidates"));
                 document.getElementById("queen-candidates").style.display = 'flex';
                 document.getElementById("king-candidates").style.display = 'none';
@@ -48,45 +48,51 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
             container.appendChild(card);
         });
+
         container.addEventListener("click", function(event) {
-            handleVote(event, candidates, container, container.id === "queen-candidates" ? 'testFemaleContestants.json' : 'testMaleContestants.json');
+            handleVote(event, candidates, container);
         });
     }
 
-    function handleVote(event, candidates, container, jsonFilePath) {
+    async function handleVote(event, candidates, container) {
         if (event.target.classList.contains("vote-button")) {
             const candidateId = parseInt(event.target.getAttribute("data-id"));
-            const candidate = candidates.find(c => c.id === candidateId);
-            if (event.target.hasAttribute('data-voted')) {
-                candidate.votes = candidate.votes >= 0 ? candidate.votes - 1 : candidate.votes;
-                removeVoted(candidate.id, container.id);
-                event.target.removeAttribute('data-voted');
-                event.target.textContent = 'Vote';
-            } else {
-                const previousVote = getVoted(container.id);
-                if (previousVote) {
-                    // const previousCandidate = candidates.find(c => c.id === previousVote);
-                    // previousCandidate.votes -= 1;
-                } else {
-                    candidate.votes += 1;
-                    setVoted(candidate.id, container.id);
+            const voteType = event.target.hasAttribute('data-voted') ? 'downvote' : 'upvote';
+
+            try {
+                const response = await fetch(`${serverAddress}/api/update-vote`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        candidateId: candidateId,
+                        voteType: voteType,
+                        containerId: container.id
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                if (voteType === 'upvote') {
+                    setVoted(candidateId, container.id);
                     event.target.setAttribute('data-voted', 'true');
                     event.target.textContent = 'Unvote';
-                    console.log(candidates, candidate);
+                } else {
+                    removeVoted(candidateId, container.id);
+                    event.target.removeAttribute('data-voted');
+                    event.target.textContent = 'Vote';
                 }
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
             }
-            updateJSONFile(jsonFilePath, candidates)
-                // .then(() => renderCandidates(candidates, container))
-                .catch(error => console.error('Error:', error));
         }
     }
 
     function hasVoted(candidateId, category) {
         return localStorage.getItem(`voted_${category}`) === String(candidateId);
-    }
-
-    function getVoted(category) {
-        return localStorage.getItem(`voted_${category}`);
     }
 
     function setVoted(candidateId, category) {
@@ -97,29 +103,9 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.removeItem(`voted_${category}`);
     }
 
-    async function updateJSONFile(filePath, candidates) {
-        try {
-            const response = await fetch(`${serverAddress}/api/update-vote`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    filePath: filePath,
-                    candidates: candidates
-                })
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-        }
-    }
-
     // Listen for updates from the server
     socket.on('update', (data) => {
-        if (data.filePath.includes('Male')) {
+        if (data.containerId === 'king-candidates') {
             candidatesMasters = data.candidates;
             renderCandidates(candidatesMasters, document.getElementById("king-candidates"));
         } else {
