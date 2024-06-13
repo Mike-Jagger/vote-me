@@ -35,11 +35,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderCandidates(candidates, container) {
         container.innerHTML = "";
         candidates.sort((a, b) => b.votes - a.votes);
+        let rank = 1;
         candidates.forEach(candidate => {
             const voted = hasVoted(candidate.id, container.id);
             const card = document.createElement("div");
             card.className = "candidate-card";
             card.innerHTML = `
+                <div class="ranking"><h2>${rank}</h2></div>
                 <div class="profile-image" style="background-image: url(${candidate.img})"></div>
                 <h2>${candidate.name}</h2>
                 <p>Votes: <span class="vote-count">${candidate.votes}</span></p>
@@ -48,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </button>
             `;
             container.appendChild(card);
+            rank += 1;
         });
 
         container.removeEventListener("click", handleVote);
