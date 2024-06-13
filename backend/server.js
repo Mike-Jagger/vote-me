@@ -57,14 +57,15 @@ app.get('/api/female-contestants', async (req, res) => {
 
 // Endpoint to handle votes
 app.post('/api/update-vote', async (req, res) => {
-    const { candidateId, voteType, containerId } = req.body;
+    const { candidateId, previousCandidateId, voteType, containerId } = req.body;
     const filePath = containerId === 'king-candidates' ? 'testMaleContestants.json' : 'testFemaleContestants.json';
 
     try {
         const data = await readJSONFile(path.join(__dirname, filePath));
         const candidates = containerId === 'king-candidates' ? data.maleContestants : data.femaleContestants;
-        const candidate = candidates.find(c => c.id === candidateId);
 
+        // Update the vote for the current candidate
+        const candidate = candidates.find(c => c.id === candidateId);
         if (candidate) {
             if (voteType === 'upvote') {
                 candidate.votes += 1;
@@ -73,14 +74,23 @@ app.post('/api/update-vote', async (req, res) => {
             }
         }
 
+        // Remove the vote for the previous candidate
+        if (previousCandidateId) {
+            const previousCandidate = candidates.find(c => c.id === previousCandidateId);
+            console.log(previousCandidate);
+            if (previousCandidate && previousCandidate.votes > 0) {
+                previousCandidate.votes -= 1;
+            }
+        }
+
         await writeJSONFile(path.join(__dirname, filePath), data);
 
         res.send('Votes updated successfully');
 
-        setTimeout( () => {
+        res.on('finish', () => {
             io.emit('update', { containerId, candidates });
-        }, 3000)
-
+        });
+        
     } catch (err) {
         res.status(500).send('Error processing vote');
     }
