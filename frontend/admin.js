@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const serverAddress = 'https://b351f24b-1630-4c84-bb8d-cc30afc0828e-00-1yzdiixczcwmr.spock.replit.dev';
+    // const serverAddress = 'https://b351f24b-1630-4c84-bb8d-cc30afc0828e-00-1yzdiixczcwmr.spock.replit.dev';
+    const serverAddress = 'https://vote-me-mike-jagger.replit.app';
     const socket = io.connect(serverAddress);
 
     let candidatesMiss = [];
